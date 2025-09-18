@@ -10,136 +10,165 @@
   </style>
 </head>
 <body>
-  <h2>⭐ Các tên đệm + tên tiếng Việt có thể đủ các số 1→9 với ngày sinh 14/08/2025</h2>
-  <p>Ngày sinh: <strong>14/08/2025</strong></p>
+  <h2>🔢 Thần số học: Gợi ý tên theo ngày sinh</h2>
+  <label for="dob">Nhập ngày sinh (DD/MM/YYYY):</label>
+  <input type="date" id="dob" placeholder="18/09/1995">
+  <button onclick="suggestNames()">Tìm tên phù hợp</button>
   <div class="name-list" id="nameList">
     <!-- Kết quả sẽ được hiển thị ở đây -->
   </div>
 
   https://hoten.org/100-ten-nam-pho-bien-vietnam/
   <script>
+
     const numerologyMap = {
-      A:1, J:1, S:1,
-      B:2, K:2, T:2,
-      C:3, L:3, U:3,
-      D:4, M:4, V:4,
-      E:5, N:5, W:5,
-      F:6, O:6, X:6,
-      G:7, P:7, Y:7,
-      H:8, Q:8, Z:8,
-      I:9, R:9
-    };
+        A:1, J:1, S:1,
+        B:2, K:2, T:2,
+        C:3, L:3, U:3,
+        D:4, M:4, V:4,
+        E:5, N:5, W:5,
+        F:6, O:6, X:6,
+        G:7, P:7, Y:7,
+        H:8, Q:8, Z:8,
+        I:9, R:9
+      };
 
-    // Số có sẵn từ ngày sinh 14/08/2025 (bỏ 0 vì theo Pythagoras thường không dùng số 0)
-    // Số có sẵn từ ngày sinh 03/08/2023 (bỏ 0 vì theo Pythagoras thường không dùng số 0)
-    const dateNumbers = new Set([1,4,8,2,5]);
-    // const dateNumbers = new Set([2,3,8]);
 
-    // Một danh sách tên đệm phổ biến mở rộng
-    const demNames = [
-      // "Văn","Thị","Hữu","Ngọc","Thanh","Bảo","Phúc","Minh","Hồng","Gia",
-      "Văn","Hữu","Ngọc","Thanh","Bảo","Phúc","Minh","Hồng","Gia",
-      "Trung","Xuân","Thu","Quân","Linh","Hiếu","Đức",
-      // "Trung","Xuân","Thu","Lan","Thảo","Diễm","Quân","Linh","Hiếu","Đức",
-      "Tiến","Công","Hoài","Anh","Phong","Hải","Huyền","Khánh","Khoa","Kim",
-      "Yến","Vy","Phương","Hoàng","Trúc","Kiều","Nga","Ngân",
-      "Khôi","Thiện","Tuấn","Tùng","Hùng","Duy","Đăng","Quang","Tâm","Hiền",
+      // Một danh sách tên đệm phổ biến mở rộng
+      const demNames = [
+        // "Văn","Thị","Hữu","Ngọc","Thanh","Bảo","Phúc","Minh","Hồng","Gia",
+        "Văn","Hữu","Ngọc","Thanh","Bảo","Phúc","Minh","Hồng","Gia",
+        "Trung","Xuân","Thu","Quân","Linh","Hiếu","Đức",
+        // "Trung","Xuân","Thu","Lan","Thảo","Diễm","Quân","Linh","Hiếu","Đức",
+        "Tiến","Công","Hoài","Anh","Phong","Hải","Huyền","Khánh","Khoa","Kim",
+        "Yến","Vy","Phương","Hoàng","Trúc","Kiều","Nga","Ngân",
+        "Khôi","Thiện","Tuấn","Tùng","Hùng","Duy","Đăng","Quang","Tâm","Hiền",
 
-      "Mạnh","Trí","Chí","Đức","Hiểu","Khải","Tài","Thành","Hạo","Lam",
-      "Trường","Cường","Nguyên","Huỳnh","Huy","Phát","Nhân","Nhật",
-      "Phú","Nghĩa","Vượng","Vương","Thái","Vũ","Toàn","Long","Thuận","Danh","Dương",
-      "Phước","Tín","Việt","Hậu","Trọng","Luân","Hồi","Triết","Quốc","Thông",
-      "Khiêm","Hòa","Tường","Kha","Nghi","Vỹ","Đại","Hiệp","Giang","Kỳ","Phi",
-      "Tân","Hiển","Vĩ","Dũng","Tường","Bình","Kiên"
-    ];
+        "Mạnh","Trí","Chí","Đức","Hiểu","Khải","Tài","Thành","Hạo","Lam",
+        "Trường","Cường","Nguyên","Huỳnh","Huy","Phát","Nhân","Nhật",
+        "Phú","Nghĩa","Vượng","Vương","Thái","Vũ","Toàn","Long","Thuận","Danh","Dương",
+        "Phước","Tín","Việt","Hậu","Trọng","Luân","Hồi","Triết","Quốc","Thông",
+        "Khiêm","Hòa","Tường","Kha","Nghi","Vỹ","Đại","Hiệp","Giang","Kỳ","Phi",
+        "Tân","Hiển","Vĩ","Dũng","Tường","Bình","Kiên","Quyết",
+        "Tuệ",
+        "Uy",
+        "Đỗ"
+      ];
 
-    // Danh sách tên chính lớn hơn
-    const tenNames = [
-      // "An","Linh","Tuấn","Dũng","Phát","Hà","Quân","Hiếu","Sơn",
-      "An","Linh","Tuấn","Phát","Hà","Quân","Hiếu","Sơn",
-      // "Hoa","Khánh","Hùng","Thùy","Yến","Vy","Phương","Thiên","Nhật",
-      "Khánh","Hùng","Thiên","Nhật",
-      // "Nam","Ngọc","Tâm","Trí","Hiểu","Uyên","Diệu","Lan","Trang","Thảo",
-      "Nam","Ngọc","Tâm","Trí","Hiểu",
-      // "Cúc","Mi","My","Bình","Hương","Thu","Quyên","Quỳnh","Yên","Hào",
-      // "Cúc","Mi","My","Bình","Hương","Thu","Quỳnh","Yên","Hào",
-      // "Cúc","Mi","My","Hương","Thu","Quỳnh","Yên","Hào",
-      "Cúc","Phương","Thu","Quỳnh","Yên","Hào",
-      // "Quý","Khôi","Trường","Lộc","Gia","Quảng","Bích","Đoan","Diễm","Khanh",
-      "Quý","Khôi","Trường","Lộc","Gia","Đoan","Khanh",
-      // "Thi","Kiều","Lợi","Thịnh","Thiên","Tài","Sang","Đạt","Cường","Hảo",
-      "Lợi","Tài","Sang","Đạt","Cường","Hảo",
-      // "Minh","Việt","Vinh","Phong","Hoàng","Đông","Bảo","Khang","Huỳnh",
-      "Phong","Hoàng","Đông","Bảo","Khang","Huỳnh",
-      // "Khải","Hải","Thành","Hảo","Lam","Đăng","Xuân","Nguyên","Anh","Khoa",
-      "Khải","Hải","Thành","Hảo","Lam","Đăng","Xuân","Anh","Khoa",
-      "Duy","Kiệt","Phú","Nghĩa","Vượng","Vương","Thái","Vũ","Toàn","Long","Tín",
-      "Tân","Tùng","Hậu","Trọng","Luân","Hồi","Triết","Quốc","Thông",
-      "Khiêm","Tường","Vân","Kha","Nghi","Vỹ","Mạnh","Hiệp","Kỳ",
-      "Phi","Hiển","Vĩ","Hoài","Nhi","Kiên","Nhung","Tiền","Trúc"
+      // Danh sách tên chính lớn hơn
+      const tenNames = [
+        // "An","Linh","Tuấn","Dũng","Phát","Hà","Quân","Hiếu","Sơn",
+        "An","Linh","Tuấn","Phát","Hà","Quân","Hiếu","Sơn",
+        // "Hoa","Khánh","Hùng","Thùy","Yến","Vy","Phương","Thiên","Nhật",
+        "Khánh","Hùng","Thiên","Nhật",
+        // "Nam","Ngọc","Tâm","Trí","Hiểu","Uyên","Diệu","Lan","Trang","Thảo",
+        "Nam","Ngọc","Tâm","Trí","Hiểu",
+        // "Cúc","Mi","My","Bình","Hương","Thu","Quyên","Quỳnh","Yên","Hào",
+        // "Cúc","Mi","My","Bình","Hương","Thu","Quỳnh","Yên","Hào",
+        // "Cúc","Mi","My","Hương","Thu","Quỳnh","Yên","Hào",
+        "Cúc","Phương","Thu","Quỳnh","Yên","Hào",
+        // "Quý","Khôi","Trường","Lộc","Gia","Quảng","Bích","Đoan","Diễm","Khanh",
+        "Quý","Khôi","Trường","Lộc","Gia","Đoan","Khanh",
+        // "Thi","Kiều","Lợi","Thịnh","Thiên","Tài","Sang","Đạt","Cường","Hảo",
+        "Lợi","Tài","Sang","Đạt","Cường","Hảo",
+        // "Minh","Việt","Vinh","Phong","Hoàng","Đông","Bảo","Khang","Huỳnh",
+        "Phong","Hoàng","Đông","Bảo","Khang","Huỳnh",
+        // "Khải","Hải","Thành","Hảo","Lam","Đăng","Xuân","Nguyên","Anh","Khoa",
+        "Khải","Hải","Thành","Hảo","Lam","Đăng","Xuân","Anh","Khoa",
+        "Duy","Kiệt","Phú","Nghĩa","Vượng","Vương","Thái","Vũ","Toàn","Long","Tín",
+        "Tân","Tùng","Hậu","Trọng","Luân","Hồi","Triết","Quốc","Thông",
+        "Khiêm","Tường","Vân","Kha","Nghi","Vỹ","Mạnh","Hiệp","Kỳ",
+        "Phi","Hiển","Vĩ","Hoài","Nhi","Kiên","Nhung","Tiền","Trúc","Hoàn",
+        "Quyết",
+        "Tuệ",
+        "Uy",
+        "Đỗ"
 
-    ];
+      ];
 
-    // Hàm lấy số từ tên
-    function getNumbersFromName(name) {
-      const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const letters = normalized.toUpperCase().replace(/[^A-Z]/g, '').split('');
-      const nums = new Set();
-      for (let c of letters) {
-        const num = numerologyMap[c];
-        if (num) nums.add(num);
+    function suggestNames() {
+      const dobInput = document.getElementById("dob").value.trim();
+      console.log(dobInput)
+      const resultDiv = document.getElementById("nameList");
+      // if (!dobInput.match(/^\d{2}\/\d{2}\/\d{4}$/) || !dobInput.match(/^\d{2}-\d{2}-\d{4}$/)) {
+      //   resultDiv.innerHTML = "<span style='color:red;'>⚠️ Ngày sinh không hợp lệ. Định dạng đúng: DD/MM/YYYY</span>";
+      //   return;
+      // }
+
+      findSuitableNames(dobInput);
+    }
+
+    function getNumbersFromDate(dob) {
+        const digits = dob.replace(/[^0-9]/g, '').split('').map(Number);
+        return new Set(digits.filter(d => d >= 1 && d <= 9)); // bỏ 0
+    }
+
+      // Hàm lấy số từ tên
+      function getNumbersFromName(name) {
+        const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const letters = normalized.toUpperCase().replace(/[^A-Z]/g, '').split('');
+        const nums = new Set();
+        for (let c of letters) {
+          const num = numerologyMap[c];
+          if (num) nums.add(num);
+        }
+        return nums;
       }
-      return nums;
-    }
 
-    function unionSets(a, b) {
-      const s = new Set(a);
-      for (let x of b) s.add(x);
-      return s;
-    }
+      function unionSets(a, b) {
+        const s = new Set(a);
+        for (let x of b) s.add(x);
+        return s;
+      }
 
-    function findSuitableNames() {
-      const fullSet = new Set([1,2,3,4,5,6,7,8,9]);
-      const container = document.getElementById("nameList");
-      container.innerHTML = ""; // dọn chỗ
+      function findSuitableNames(date) {
 
-      let count = 0;
-      let ListTen = [];
-      for (let dem of demNames) {
-        for (let ten of tenNames) {
-          const nameNums = unionSets(getNumbersFromName(dem), getNumbersFromName(ten));
-          const combined = unionSets(dateNumbers, nameNums);
-          const ok = [...fullSet].every(n => combined.has(n));
-          if (ok) {
-            // const div = document.createElement("div");
-            // div.className = "name-item";
-            // div.textContent = `${dem} ${ten}`;
-            // container.appendChild(div);
-            ListTen.push(`${dem} ${ten}`);
-            count++;
+      // Số có sẵn từ ngày sinh 14/08/2025 (bỏ 0 vì theo Pythagoras thường không dùng số 0)
+      // Số có sẵn từ ngày sinh 03/08/2023 (bỏ 0 vì theo Pythagoras thường không dùng số 0)
+      // const dateNumbers = new Set([1,4,0,8,2,5].filter(n => n >=1 && n <=9));
+      // const dateNumbers = new Set([2,3,8]);
+
+      const dateNumbers = getNumbersFromDate(date)
+      console.log('Number in date', dateNumbers)
+
+        const fullSet = new Set([1,2,3,4,5,6,7,8,9]);
+        const container = document.getElementById("nameList");
+        container.innerHTML = ""; // dọn chỗ
+
+        let count = 0;
+        let ListTen = [];
+        for (let dem of demNames) {
+          for (let ten of tenNames) {
+            const nameNums = unionSets(getNumbersFromName(dem), getNumbersFromName(ten));
+            const combined = unionSets(dateNumbers, nameNums);
+            const ok = [...fullSet].every(n => combined.has(n));
+            if (ok) {
+              // const div = document.createElement("div");
+              // div.className = "name-item";
+              // div.textContent = `${dem} ${ten}`;
+              // container.appendChild(div);
+              ListTen.push(`${dem} ${ten}`);
+              count++;
+            }
           }
         }
+        ListTen.sort();
+
+        ListTen.forEach(function(ten, index) {
+           const div = document.createElement("div");
+              div.className = "name-item";
+              div.textContent = `${ten}`;
+              container.appendChild(div);
+        });
+
+        if (count === 0) {
+          container.innerHTML = "<i>Không tìm được tên phù hợp trong danh sách hiện tại.</i>";
+        } else {
+          const info = document.createElement("p");
+          info.innerHTML = `<strong>${count}</strong> tổ hợp tên đệm + tên chính phù hợp đã tìm được.`;
+          container.insertBefore(info, container.firstChild);
+        }
       }
-      ListTen.sort();
-
-      ListTen.forEach(function(ten, index) {
-         const div = document.createElement("div");
-            div.className = "name-item";
-            div.textContent = `${ten}`;
-            container.appendChild(div);
-      });
-
-      if (count === 0) {
-        container.innerHTML = "<i>Không tìm được tên phù hợp trong danh sách hiện tại.</i>";
-      } else {
-        const info = document.createElement("p");
-        info.innerHTML = `<strong>${count}</strong> tổ hợp tên đệm + tên chính phù hợp đã tìm được.`;
-        container.insertBefore(info, container.firstChild);
-      }
-    }
-
-    // Chạy ngay khi load trang
-    window.onload = findSuitableNames;
   </script>
 </body>
 </html>
