@@ -31,7 +31,7 @@
       display: inline-block
     }
 
-    .name {
+    .name, .duong-doi{
       width: 150px;
       display: inline-block;
     }
@@ -41,6 +41,8 @@
 <body>
   <h2>🔢 Thần số học: Gợi ý tên theo ngày sinh</h2>
   <label for="dob">Nhập ngày sinh (DD/MM/YYYY):</label>
+  <!-- <input type="date" id="dob" value="1989-06-10" placeholder="10/06/1989"> -->
+  <!-- <input type="date" id="dob" value="1997-09-29" placeholder="29/09/1997"> -->
   <!-- <input type="date" id="dob" value="2023-08-03" placeholder="03/08/2023"> -->
   <input type="date" id="dob" value="2025-08-14" placeholder="14/08/2025">
   <button onclick="suggestNames()">Tìm tên phù hợp</button>
@@ -50,37 +52,38 @@
 
   <pre>
   https://hoten.org/100-ten-nam-pho-bien-vietnam/
-  Công Hải Có 13 với tổng 61 : 1,1,2,2,3,4,5,5,6,7,8,8,9
 
-  Hiếu Cường Có 15 với tổng 71 : 1,2,2,3,3,3,4,5,5,5,6,7,8,8,9
+  Công Hải Có 13 số với tổng 61 : 1,1,2,2,3,4,5,5,6,7,8,8,9
 
-  Xuân Nghĩa Có 15 với tổng 67 : 1,1,1,2,2,3,4,5,5,5,6,7,8,8,9
+  Hiếu Cường Có 15 số với tổng 71 : 1,2,2,3,3,3,4,5,5,5,6,7,8,8,9
 
-  Đại Cường Có 13 với tổng 56 : 1,1,2,2,3,3,4,5,5,6,7,8,9
+  Xuân Nghĩa Có 15 số với tổng 67 : 1,1,1,2,2,3,4,5,5,5,6,7,8,8,9
 
-  Đại Long Có 12 với tổng 53 : 1,1,2,2,3,4,5,5,6,7,8,9
+  Đại Cường Có 13 số với tổng 56 : 1,1,2,2,3,3,4,5,5,6,7,8,9
 
-  Đức Trọng Có 13 với tổng 57 : 1,2,2,2,3,3,4,5,5,6,7,8,9
+  Đại Long Có 12 số với tổng 53 : 1,1,2,2,3,4,5,5,6,7,8,9
 
-  Phú Trọng Có 14 với tổng 69 : 1,2,2,2,3,4,5,5,6,7,7,8,8,9
+  Đức Trọng Có 13 số với tổng 57 : 1,2,2,2,3,3,4,5,5,6,7,8,9
 
-  Trung Bảo Có 14 với tổng 57 : 1,1,2,2,2,2,3,4,5,5,6,7,8,9
+  Phú Trọng Có 14 số với tổng 69 : 1,2,2,2,3,4,5,5,6,7,7,8,8,9
 
-  Trung Hào Có 14 với tổng 63 : 1,1,2,2,2,3,4,5,5,6,7,8,8,9
+  Trung Bảo Có 14 số với tổng 57 : 1,1,2,2,2,2,3,4,5,5,6,7,8,9
 
-  Trung Sơn Có 14 với tổng 60 : 1,1,2,2,2,3,4,5,5,5,6,7,8,9
-  
-  Trung Xuân Có 15 với tổng 63 : 1,1,2,2,2,3,3,4,5,5,5,6,7,8,9
+  Trung Hào Có 14 số với tổng 63 : 1,1,2,2,2,3,4,5,5,6,7,8,8,9
 
-  Trường An Có 14 với tổng 60 : 1,1,2,2,2,3,4,5,5,5,6,7,8,9
+  Trung Sơn Có 14 số với tổng 60 : 1,1,2,2,2,3,4,5,5,5,6,7,8,9
 
-  Trường Hải Có 15 với tổng 72 : 1,1,2,2,2,3,4,5,5,6,7,8,8,9,9
+  Trung Xuân Có 15 số với tổng 63 : 1,1,2,2,2,3,3,4,5,5,5,6,7,8,9
 
-  Minh Phước Có 15 với tổng 75 : 1,2,2,3,3,4,4,5,5,6,7,8,8,8,9
+  <!-- Trường An Có 14 số với tổng 60 : 1,1,2,2,2,3,4,5,5,5,6,7,8,9 -->
 
-  Gia Phước Có 14 với tổng 66 : 1,1,2,2,3,3,4,5,6,7,7,8,8,9
+  Trường Hải Có 15 số với tổng 72 : 1,1,2,2,2,3,4,5,5,6,7,8,8,9,9
 
-  Hiếu Phong Có 15 với tổng 80 : 1,2,2,3,4,5,5,5,6,7,7,8,8,8,9
+  Minh Phước Có 15 số với tổng 75 : 1,2,2,3,3,4,4,5,5,6,7,8,8,8,9
+
+  Gia Phước Có 14 số với tổng 66 : 1,1,2,2,3,3,4,5,6,7,7,8,8,9
+
+  Hiếu Phong Có 15 số với tổng 80 : 1,2,2,3,4,5,5,5,6,7,7,8,8,8,9
 
 </pre>
   <script>
@@ -120,7 +123,8 @@
       "Hà",
       "Giang",
       "Chu",
-      "Thái"
+      "Thái",
+      "An"
     ];
 
     // Danh sách tên chính lớn hơn
@@ -153,8 +157,9 @@
       "Đỗ",
       "Giang",
       "Chu",
-      "Phu",
-      "Phước"
+      "Phước",
+      // "Nguyên",
+      // "Quyên"
     ];
 
 
@@ -233,10 +238,12 @@
         fullNumber = digitInDate.concat(digitInName);
         fullNumber = fullNumber.sort((a, b) => a - b);
         let Tong = fullNumber.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        let duongDoi = tinhDuongDoi(date);
+        console.log(duongDoi)
         const div = document.createElement("div");
         div.className = "name-item";
 
-        div.innerHTML = `<span class="name">${ten} </span><span class="number"> Có ${fullNumber.length} số với tổng ${Tong}  : ${fullNumber}</span>`;
+        div.innerHTML = `<span class="name">${ten} </span><span class="duong-doi"> Đường đời ${duongDoi}</span><span class="number"> Có ${fullNumber.length} số với tổng ${Tong}  : ${fullNumber}</span>`;
         container.appendChild(div);
       });
 
@@ -251,7 +258,6 @@
 
 
     function nameToPythagoreanNumbers(name) {
-      console.log(name)
 
       // Bỏ dấu tiếng Việt và chuyển thành chữ hoa không dấu
       const cleaned = name
@@ -261,7 +267,6 @@
         .replace(/[^A-Z]/g, ''); // bỏ khoảng trắng và ký tự khác
 
       // Chuyển từng ký tự thành số
-      console.log(cleaned)
       const numbers = [];
       for (let char of cleaned) {
         const num = numerologyMap[char];
@@ -269,6 +274,70 @@
       }
 
       return numbers;
+    }
+
+    // function tinhDuongDoi(dateTime) {
+            
+    //      let date = new Date(dateTime);
+
+    //       // Lấy ngày, tháng, năm từ đối tượng Date
+    //       let day = date.getDate();
+    //       let month = date.getMonth() + 1;  // Tháng trong JavaScript bắt đầu từ 0, nên phải cộng thêm 1
+    //       let year = date.getFullYear();
+    //       // Kết hợp tất cả các chữ số trong ngày, tháng, năm
+    //       let str = day.toString() + month.toString() + year.toString();
+          
+    //       // Hàm tính tổng các chữ số
+    //       let sum = str.split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+
+    //      if (sum === 11 || sum === 22) {
+    //         return sum;
+    //       }else{
+    //         // Tiếp tục giảm tổng xuống còn 1 chữ số
+    //         while (sum > 9) {
+    //             sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+    //         }
+    //       }
+
+    //       return sum;
+    // }
+
+
+    function tinhDuongDoi(dateTime) {
+          let date = new Date(dateTime);
+
+          // Lấy ngày, tháng, năm từ đối tượng Date
+          let ngay = date.getDate();
+          let thang = date.getMonth() + 1;  // Tháng trong JavaScript bắt đầu từ 0, nên phải cộng thêm 1
+          let nam = date.getFullYear();
+          
+        // Hàm tính tổng các chữ số cho đến khi có một chữ số duy nhất
+        function tinhTongChuSo(n) {
+            while (n >= 10) {
+                n = n.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+            }
+            return n;
+        }
+
+        // Tính tổng chữ số của ngày
+        let tongNgay = tinhTongChuSo(ngay);
+
+        // Tính tổng chữ số của tháng
+        let tongThang = tinhTongChuSo(thang);
+
+        // Tính tổng chữ số của năm
+        let tongNam = tinhTongChuSo(nam);
+
+        // Cộng tất cả lại
+        let duongDoi = tongNgay + tongThang + tongNam;
+
+         if (duongDoi === 11 || duongDoi === 22) {
+            return duongDoi;
+          }else{
+            duongDoi = tinhTongChuSo(duongDoi);
+          }
+
+        return duongDoi;
     }
 
 
