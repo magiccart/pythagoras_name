@@ -83,11 +83,17 @@
 
   Gia Phước Có 14 số với tổng 66 : 1,1,2,2,3,3,4,5,6,7,7,8,8,9
 
+  Đại Phước Có 13 số với tổng 59 : 1,1,2,2,3,3,4,5,6,7,8,8,9
+
   Hiếu Phong Có 15 số với tổng 80 : 1,2,2,3,4,5,5,5,6,7,7,8,8,8,9
+
+  Hiếu Long 22 Có 14 số với tổng 68 : 1,2,2,3,3,4,5,5,5,6,7,8,8,9
+
+  Hải Long Có 13 số với tổng 61 : 1,1,2,2,3,4,5,5,6,7,8,8,9
 
 </pre>
   <script>
-
+    const Ho = "Đồng";
     const numerologyMap = {
       A: 1, J: 1, S: 1,
       B: 2, K: 2, T: 2,
@@ -124,7 +130,10 @@
       "Giang",
       "Chu",
       "Thái",
-      "An"
+      "An",
+      "Quý",
+      "Sỹ",
+      "Sĩ"
     ];
 
     // Danh sách tên chính lớn hơn
@@ -216,7 +225,7 @@
       let ListTen = [];
       for (let dem of demNames) {
         for (let ten of tenNames) {
-          const nameNums = unionSets(getNumbersFromName(dem), getNumbersFromName(ten));
+          const nameNums = unionSets(getNumbersFromName(`${Ho}${dem}`), getNumbersFromName(ten));
           const combined = unionSets(dateNumbers, nameNums);
           const ok = [...fullSet].every(n => combined.has(n));
           if (ok) {
@@ -224,7 +233,7 @@
             // div.className = "name-item";
             // div.textContent = `${dem} ${ten}`;
             // container.appendChild(div);
-            ListTen.push(`${dem} ${ten}`);
+            ListTen.push(`${Ho} ${dem} ${ten}`);
             count++;
           }
         }
@@ -276,6 +285,12 @@
       return numbers;
     }
 
+    var NTP = nameToPythagoreanNumbers('Nguyễn Phú Trọng')
+    var PNV = nameToPythagoreanNumbers('Phạm Nhật Vượng')
+    var TDL = nameToPythagoreanNumbers('Trần Đình Long')
+    console.log(NTP.join(' '))
+    console.log(PNV.join(' '))
+    console.log(TDL.join(' '))
     // function tinhDuongDoi(dateTime) {
             
     //      let date = new Date(dateTime);

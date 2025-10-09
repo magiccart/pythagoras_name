@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách tên đệm + tên lớn — đủ số 1→9 tự động</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    .name-list {
+      max-height: 500px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .name-item {
+      margin-bottom: 4px;
+    }
+
+    .highlight {
+      color: red;
+      font-weight: bold;
+    }
+
+    .char-box {
+      margin: 2px;
+      display: inline-block
+    }
+
+    .name, .duong-doi{
+      width: 150px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>🔢 Thần số học: Gợi ý tên theo ngày sinh</h2>
+  <label for="dob">Nhập ngày sinh (DD/MM/YYYY):</label>
+  <!-- <input type="date" id="dob" value="1989-06-10" placeholder="10/06/1989"> -->
+  <!-- <input type="date" id="dob" value="1997-09-29" placeholder="29/09/1997"> -->
+  <!-- <input type="date" id="dob" value="2023-08-03" placeholder="03/08/2023"> -->
+  <input type="date" id="dob" value="2025-08-14" placeholder="14/08/2025">
+  <button onclick="suggestNames()">Tìm tên phù hợp</button>
+  <div class="name-list" id="nameList">
+    <!-- Kết quả sẽ được hiển thị ở đây -->
+  </div>
+
+  <pre>
+  https://hoten.org/100-ten-nam-pho-bien-vietnam/
+
+  Công Hải Có 13 số với tổng 61 : 1,1,2,2,3,4,5,5,6,7,8,8,9
+
+  Hiếu Cường Có 15 số với tổng 71 : 1,2,2,3,3,3,4,5,5,5,6,7,8,8,9
+
+  Xuân Nghĩa Có 15 số với tổng 67 : 1,1,1,2,2,3,4,5,5,5,6,7,8,8,9
+
+  Đại Cường Có 13 số với tổng 56 : 1,1,2,2,3,3,4,5,5,6,7,8,9
+
+  Đại Long Có 12 số với tổng 53 : 1,1,2,2,3,4,5,5,6,7,8,9
+
+  Đức Trọng Có 13 số với tổng 57 : 1,2,2,2,3,3,4,5,5,6,7,8,9
+
+  Phú Trọng Có 14 số với tổng 69 : 1,2,2,2,3,4,5,5,6,7,7,8,8,9
+
+  Trung Bảo Có 14 số với tổng 57 : 1,1,2,2,2,2,3,4,5,5,6,7,8,9
+
+  Trung Hào Có 14 số với tổng 63 : 1,1,2,2,2,3,4,5,5,6,7,8,8,9
+
+  Trung Sơn Có 14 số với tổng 60 : 1,1,2,2,2,3,4,5,5,5,6,7,8,9
+
+  Trung Xuân Có 15 số với tổng 63 : 1,1,2,2,2,3,3,4,5,5,5,6,7,8,9
+
+  <!-- Trường An Có 14 số với tổng 60 : 1,1,2,2,2,3,4,5,5,5,6,7,8,9 -->
+
+  Trường Hải Có 15 số với tổng 72 : 1,1,2,2,2,3,4,5,5,6,7,8,8,9,9
+
+  Minh Phước Có 15 số với tổng 75 : 1,2,2,3,3,4,4,5,5,6,7,8,8,8,9
+
+  Gia Phước Có 14 số với tổng 66 : 1,1,2,2,3,3,4,5,6,7,7,8,8,9
+
+  Đại Phước Có 13 số với tổng 59 : 1,1,2,2,3,3,4,5,6,7,8,8,9
+
+  Hiếu Phong Có 15 số với tổng 80 : 1,2,2,3,4,5,5,5,6,7,7,8,8,8,9
+
+  Hiếu Long 22 Có 14 số với tổng 68 : 1,2,2,3,3,4,5,5,5,6,7,8,8,9
+
+  Hải Long Có 13 số với tổng 61 : 1,1,2,2,3,4,5,5,6,7,8,8,9
+
+</pre>
+  <script>
+    const Ho = "Đồng";
+    const numerologyMap = {
+      A: 1, J: 1, S: 1,
+      B: 2, K: 2, T: 2,
+      C: 3, L: 3, U: 3,
+      D: 4, M: 4, V: 4,
+      E: 5, N: 5, W: 5,
+      F: 6, O: 6, X: 6,
+      G: 7, P: 7, Y: 7,
+      H: 8, Q: 8, Z: 8,
+      I: 9, R: 9
+    };
+
+
+    // Một danh sách tên đệm phổ biến mở rộng
+    const demNames = [
+      // "Văn","Thị","Hữu","Ngọc","Thanh","Bảo","Phúc","Minh","Hồng","Gia",
+      "Văn", "Hữu", "Ngọc", "Thanh", "Bảo", "Phúc", "Minh", "Hồng", "Gia",
+      "Trung", "Xuân", "Thu", "Quân", "Linh", "Hiếu", "Đức",
+      // "Trung","Xuân","Thu","Lan","Thảo","Diễm","Quân","Linh","Hiếu","Đức",
+      "Tiến", "Công", "Hoài", "Anh", "Phong", "Hải", "Huyền", "Khánh", "Khoa", "Kim",
+      "Yến", "Vy", "Phương", "Hoàng", "Trúc", "Kiều", "Nga", "Ngân",
+      "Khôi", "Thiện", "Tuấn", "Tùng", "Hùng", "Duy", "Đăng", "Quang", "Tâm", "Hiền",
+
+      "Mạnh", "Trí", "Chí", "Đức", "Hiểu", "Khải", "Tài", "Thành", "Hạo", "Lam",
+      "Trường", "Cường", "Nguyên", "Huỳnh", "Huy", "Phát", "Nhân", "Nhật",
+      "Phú", "Nghĩa", "Vượng", "Vương", "Thái", "Vũ", "Toàn", "Long", "Thuận", "Danh", "Dương",
+      "Phước", "Tín", "Việt", "Hậu", "Trọng", "Luân", "Hồi", "Triết", "Quốc", "Thông",
+      "Khiêm", "Hòa", "Tường", "Kha", "Nghi", "Vỹ", "Đại", "Hiệp", "Giang", "Kỳ", "Phi",
+      "Tân", "Hiển", "Vĩ", "Dũng", "Tường", "Bình", "Kiên", "Quyết",
+      "Tuệ",
+      "Uy",
+      "Đỗ",
+      "Hà",
+      "Giang",
+      "Chu",
+      "Thái",
+      "An",
+      "Quý",
+      "Sỹ",
+      "Sĩ"
+    ];
+
+    // Danh sách tên chính lớn hơn
+    const tenNames = [
+      // "An","Linh","Tuấn","Dũng","Phát","Hà","Quân","Hiếu","Sơn",
+      "An", "Linh", "Tuấn", "Phát", "Hà", "Quân", "Hiếu", "Sơn",
+      // "Hoa","Khánh","Hùng","Thùy","Yến","Vy","Phương","Thiên","Nhật",
+      "Khánh", "Hùng", "Thiên", "Nhật",
+      // "Nam","Ngọc","Tâm","Trí","Hiểu","Uyên","Diệu","Lan","Trang","Thảo",
+      "Nam", "Ngọc", "Tâm", "Trí", "Hiểu",
+      // "Cúc","Mi","My","Bình","Hương","Thu","Quyên","Quỳnh","Yên","Hào",
+      // "Cúc","Mi","My","Bình","Hương","Thu","Quỳnh","Yên","Hào",
+      // "Cúc","Mi","My","Hương","Thu","Quỳnh","Yên","Hào",
+      "Cúc", "Phương", "Thu", "Quỳnh", "Yên", "Hào",
+      // "Quý","Khôi","Trường","Lộc","Gia","Quảng","Bích","Đoan","Diễm","Khanh",
+      "Quý", "Khôi", "Trường", "Lộc", "Gia", "Đoan", "Khanh",
+      // "Thi","Kiều","Lợi","Thịnh","Thiên","Tài","Sang","Đạt","Cường","Hảo",
+      "Lợi", "Tài", "Sang", "Đạt", "Cường", "Hảo",
+      // "Minh","Việt","Vinh","Phong","Hoàng","Đông","Bảo","Khang","Huỳnh",
+      "Phong", "Hoàng", "Đông", "Bảo", "Khang", "Huỳnh",
+      // "Khải","Hải","Thành","Hảo","Lam","Đăng","Xuân","Nguyên","Anh","Khoa",
+      "Khải", "Hải", "Thành", "Hảo", "Lam", "Đăng", "Xuân", "Anh", "Khoa",
+      "Duy", "Kiệt", "Phú", "Nghĩa", "Vượng", "Vương", "Thái", "Vũ", "Toàn", "Long", "Tín",
+      "Tân", "Tùng", "Hậu", "Trọng", "Luân", "Hồi", "Triết", "Quốc", "Thông",
+      "Khiêm", "Tường", "Vân", "Kha", "Nghi", "Vỹ", "Mạnh", "Hiệp", "Kỳ",
+      "Phi", "Hiển", "Vĩ", "Hoài", "Nhi", "Kiên", "Nhung", "Tiền", "Trúc", "Hoàn",
+      "Quyết",
+      "Tuệ",
+      "Uy",
+      "Đỗ",
+      "Giang",
+      "Chu",
+      "Phước",
+      // "Nguyên",
+      // "Quyên"
+    ];
+
+
+    function suggestNames() {
+      const dobInput = document.getElementById("dob").value.trim();
+      console.log(dobInput)
+      const resultDiv = document.getElementById("nameList");
+      // if (!dobInput.match(/^\d{2}\/\d{2}\/\d{4}$/) || !dobInput.match(/^\d{2}-\d{2}-\d{4}$/)) {
+      //   resultDiv.innerHTML = "<span style='color:red;'>⚠️ Ngày sinh không hợp lệ. Định dạng đúng: DD/MM/YYYY</span>";
+      //   return;
+      // }
+
+      findSuitableNames(dobInput);
+    }
+
+    function getNumbersFromDate(dob) {
+      const digits = dob.replace(/[^0-9]/g, '').split('').map(Number);
+      return new Set(digits.filter(d => d >= 1 && d <= 9)); // bỏ 0
+    }
+
+    // Hàm lấy số từ tên
+    function getNumbersFromName(name) {
+      const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const letters = normalized.toUpperCase().replace(/[^A-Z]/g, '').split('');
+      const nums = new Set();
+      for (let c of letters) {
+        const num = numerologyMap[c];
+        if (num) nums.add(num);
+      }
+      return nums;
+    }
+
+    function unionSets(a, b) {
+      const s = new Set(a);
+      for (let x of b) s.add(x);
+      return s;
+    }
+
+    function findSuitableNames(date) {
+
+      // Số có sẵn từ ngày sinh 14/08/2025 (bỏ 0 vì theo Pythagoras thường không dùng số 0)
+      // Số có sẵn từ ngày sinh 03/08/2023 (bỏ 0 vì theo Pythagoras thường không dùng số 0)
+      // const dateNumbers = new Set([1,4,0,8,2,5].filter(n => n >=1 && n <=9));
+      // const dateNumbers = new Set([2,3,8]);
+
+      const dateNumbers = getNumbersFromDate(date)
+      console.log('Number in date', dateNumbers)
+
+      const fullSet = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      const container = document.getElementById("nameList");
+      container.innerHTML = ""; // dọn chỗ
+
+      let count = 0;
+      let ListTen = [];
+      for (let dem of demNames) {
+        for (let ten of tenNames) {
+          const nameNums = unionSets(getNumbersFromName(Ho), getNumbersFromName(dem), getNumbersFromName(ten));
+          const combined = unionSets(dateNumbers, nameNums);
+          const ok = [...fullSet].every(n => combined.has(n));
+          if (ok) {
+            // const div = document.createElement("div");
+            // div.className = "name-item";
+            // div.textContent = `${dem} ${ten}`;
+            // container.appendChild(div);
+            ListTen.push(`${Ho} ${dem} ${ten}`);
+            count++;
+          }
+        }
+      }
+      ListTen.sort();
+
+      ListTen.forEach(function (ten, index) {
+        const digitInDate = date.replace(/[^0-9]/g, '').split('').map(Number).filter(d => d >= 1 && d <= 9);
+        const digitInName = nameToPythagoreanNumbers(ten);
+        let fullNumber = digitInDate.concat(digitInName);
+        fullNumber = digitInDate.concat(digitInName);
+        fullNumber = fullNumber.sort((a, b) => a - b);
+        let Tong = fullNumber.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        let duongDoi = tinhDuongDoi(date);
+        console.log(duongDoi)
+        const div = document.createElement("div");
+        div.className = "name-item";
+
+        div.innerHTML = `<span class="name">${ten} </span><span class="duong-doi"> Đường đời ${duongDoi}</span><span class="number"> Có ${fullNumber.length} số với tổng ${Tong}  : ${fullNumber}</span>`;
+        container.appendChild(div);
+      });
+
+      if (count === 0) {
+        container.innerHTML = "<i>Không tìm được tên phù hợp trong danh sách hiện tại.</i>";
+      } else {
+        const info = document.createElement("p");
+        info.innerHTML = `<strong>${count}</strong> tổ hợp tên đệm + tên chính phù hợp đã tìm được.`;
+        container.insertBefore(info, container.firstChild);
+      }
+    }
+
+
+    function nameToPythagoreanNumbers(name) {
+
+      // Bỏ dấu tiếng Việt và chuyển thành chữ hoa không dấu
+      const cleaned = name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // xóa dấu
+        .toUpperCase()
+        .replace(/[^A-Z]/g, ''); // bỏ khoảng trắng và ký tự khác
+
+      // Chuyển từng ký tự thành số
+      const numbers = [];
+      for (let char of cleaned) {
+        const num = numerologyMap[char];
+        if (num) numbers.push(num);
+      }
+
+      return numbers;
+    }
+
+    var NTP = nameToPythagoreanNumbers('Nguyễn Phú Trọng')
+    var PNV = nameToPythagoreanNumbers('Phạm Nhật Vượng')
+    var TDL = nameToPythagoreanNumbers('Trần Đình Long')
+    console.log(NTP.join(' '))
+    console.log(PNV.join(' '))
+    console.log(TDL.join(' '))
+    // function tinhDuongDoi(dateTime) {
+            
+    //      let date = new Date(dateTime);
+
+    //       // Lấy ngày, tháng, năm từ đối tượng Date
+    //       let day = date.getDate();
+    //       let month = date.getMonth() + 1;  // Tháng trong JavaScript bắt đầu từ 0, nên phải cộng thêm 1
+    //       let year = date.getFullYear();
+    //       // Kết hợp tất cả các chữ số trong ngày, tháng, năm
+    //       let str = day.toString() + month.toString() + year.toString();
+          
+    //       // Hàm tính tổng các chữ số
+    //       let sum = str.split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+
+    //      if (sum === 11 || sum === 22) {
+    //         return sum;
+    //       }else{
+    //         // Tiếp tục giảm tổng xuống còn 1 chữ số
+    //         while (sum > 9) {
+    //             sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+    //         }
+    //       }
+
+    //       return sum;
+    // }
+
+
+    function tinhDuongDoi(dateTime) {
+          let date = new Date(dateTime);
+
+          // Lấy ngày, tháng, năm từ đối tượng Date
+          let ngay = date.getDate();
+          let thang = date.getMonth() + 1;  // Tháng trong JavaScript bắt đầu từ 0, nên phải cộng thêm 1
+          let nam = date.getFullYear();
+          
+        // Hàm tính tổng các chữ số cho đến khi có một chữ số duy nhất
+        function tinhTongChuSo(n) {
+            while (n >= 10) {
+                n = n.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+            }
+            return n;
+        }
+
+        // Tính tổng chữ số của ngày
+        let tongNgay = tinhTongChuSo(ngay);
+
+        // Tính tổng chữ số của tháng
+        let tongThang = tinhTongChuSo(thang);
+
+        // Tính tổng chữ số của năm
+        let tongNam = tinhTongChuSo(nam);
+
+        // Cộng tất cả lại
+        let duongDoi = tongNgay + tongThang + tongNam;
+
+         if (duongDoi === 11 || duongDoi === 22) {
+            return duongDoi;
+          }else{
+            duongDoi = tinhTongChuSo(duongDoi);
+          }
+
+        return duongDoi;
+    }
+
+
+  </script>
+</body>
+
+</html>
