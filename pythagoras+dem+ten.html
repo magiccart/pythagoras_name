@@ -113,14 +113,22 @@
       "Văn", "Hữu", "Ngọc", "Thanh", "Bảo", "Phúc", "Minh", "Hồng", "Gia",
       "Trung", "Xuân", "Thu", "Quân", "Linh", "Hiếu", "Đức",
       // "Trung","Xuân","Thu","Lan","Thảo","Diễm","Quân","Linh","Hiếu","Đức",
-      "Tiến", "Công", "Hoài", "Anh", "Phong", "Hải", "Huyền", "Khánh", "Khoa", "Kim",
-      "Yến", "Vy", "Phương", "Hoàng", "Trúc", "Kiều", "Nga", "Ngân",
-      "Khôi", "Thiện", "Tuấn", "Tùng", "Hùng", "Duy", "Đăng", "Quang", "Tâm", "Hiền",
+      "Tiến", "Công", "Hoài", "Anh", "Phong", "Hải", 
+      // "Huyền",
+      "Khánh", "Khoa", "Kim",
+      "Yến", "Vy", "Phương", "Hoàng", "Trúc",
+      // "Kiều",
+      "Nga", "Ngân",
+      "Khôi", "Thiện", "Tuấn", "Tùng",
+       // "Hùng", 
+       "Duy", "Đăng", "Quang", "Tâm", "Hiền",
 
       "Mạnh", "Trí", "Chí", "Đức", "Hiểu", "Khải", "Tài", "Thành", "Hạo", "Lam",
       "Trường", "Cường", "Nguyên", "Huỳnh", "Huy", "Phát", "Nhân", "Nhật",
       "Phú", "Nghĩa", "Vượng", "Vương", "Thái", "Vũ", "Toàn", "Long", "Thuận", "Danh", "Dương",
-      "Phước", "Tín", "Việt", "Hậu", "Trọng", "Luân", "Hồi", "Triết", "Quốc", "Thông",
+      "Phước", "Tín", "Việt", "Hậu", "Trọng", "Luân", 
+      // "Hồi", 
+      "Triết", "Quốc", "Thông",
       "Khiêm", "Hòa", "Tường", "Kha", "Nghi", "Vỹ", "Đại", "Hiệp", "Giang", "Kỳ", "Phi",
       "Tân", "Hiển", "Vĩ", "Dũng", "Tường", "Bình", "Kiên", "Quyết",
       "Tuệ",
@@ -133,7 +141,9 @@
       "An",
       "Quý",
       "Sỹ",
-      "Sĩ"
+      "Sĩ",
+      "Tấn",
+      "Tinh"
     ];
 
     // Danh sách tên chính lớn hơn
@@ -160,13 +170,15 @@
       "Tân", "Tùng", "Hậu", "Trọng", "Luân", "Hồi", "Triết", "Quốc", "Thông",
       "Khiêm", "Tường", "Vân", "Kha", "Nghi", "Vỹ", "Mạnh", "Hiệp", "Kỳ",
       "Phi", "Hiển", "Vĩ", "Hoài", "Nhi", "Kiên", "Nhung", "Tiền", "Trúc", "Hoàn",
-      "Quyết",
+      // "Quyết",
       "Tuệ",
       "Uy",
       "Đỗ",
       "Giang",
       "Chu",
       "Phước",
+       "Tấn",
+       "Kiện"
       // "Nguyên",
       // "Quyên"
     ];
@@ -225,7 +237,7 @@
       let ListTen = [];
       for (let dem of demNames) {
         for (let ten of tenNames) {
-          const nameNums = unionSets(getNumbersFromName(Ho), getNumbersFromName(dem), getNumbersFromName(ten));
+          const nameNums = unionSets(getNumbersFromName(dem), getNumbersFromName(ten));
           const combined = unionSets(dateNumbers, nameNums);
           const ok = [...fullSet].every(n => combined.has(n));
           if (ok) {
